@@ -1,0 +1,136 @@
+type,table_physical,table_logical,column_physical,column_logical
+table,trainers,트레이너,,
+column,trainers,트레이너,id,트레이너 ID
+column,trainers,트레이너,name,트레이너 이름
+column,trainers,트레이너,email,이메일
+column,trainers,트레이너,phone,연락처
+column,trainers,트레이너,center_name,소속 센터명
+column,trainers,트레이너,created_at,생성일시
+column,trainers,트레이너,updated_at,수정일시
+table,members,회원,,
+column,members,회원,id,회원 ID
+column,members,회원,trainer_id,담당 트레이너 ID
+column,members,회원,name,회원 이름
+column,members,회원,phone,연락처
+column,members,회원,age,나이
+column,members,회원,gender,성별
+column,members,회원,fitness_goal,운동 목표
+column,members,회원,exercise_experience,운동 경험
+column,members,회원,status,회원 상태
+column,members,회원,created_at,등록일시
+column,members,회원,updated_at,수정일시
+table,member_health_notes,회원 건강 주의사항,,
+column,member_health_notes,회원 건강 주의사항,id,건강 주의사항 ID
+column,member_health_notes,회원 건강 주의사항,member_id,회원 ID
+column,member_health_notes,회원 건강 주의사항,pain_area,통증 부위
+column,member_health_notes,회원 건강 주의사항,injury_history,부상 이력
+column,member_health_notes,회원 건강 주의사항,precautions,수업 주의사항
+column,member_health_notes,회원 건강 주의사항,asymmetry_note,좌우 비대칭 및 가동성 메모
+column,member_health_notes,회원 건강 주의사항,created_at,등록일시
+table,member_body_profiles,회원 신체 기준 정보,,
+column,member_body_profiles,회원 신체 기준 정보,id,신체 기준 정보 ID
+column,member_body_profiles,회원 신체 기준 정보,member_id,회원 ID
+column,member_body_profiles,회원 신체 기준 정보,height_cm,키 cm
+column,member_body_profiles,회원 신체 기준 정보,weight_kg,체중 kg
+column,member_body_profiles,회원 신체 기준 정보,body_type_note,체형 특성 메모
+column,member_body_profiles,회원 신체 기준 정보,created_at,등록일시
+table,member_consents,회원 정보 수집 동의,,
+column,member_consents,회원 정보 수집 동의,id,동의 ID
+column,member_consents,회원 정보 수집 동의,member_id,회원 ID
+column,member_consents,회원 정보 수집 동의,consent_type,동의 유형
+column,member_consents,회원 정보 수집 동의,consent_text,안내 문구
+column,member_consents,회원 정보 수집 동의,is_agreed,동의 여부
+column,member_consents,회원 정보 수집 동의,agreed_at,동의일시
+table,sessions,PT 세션,,
+column,sessions,PT 세션,id,세션 ID
+column,sessions,PT 세션,member_id,회원 ID
+column,sessions,PT 세션,trainer_id,트레이너 ID
+column,sessions,PT 세션,session_date,수업일
+column,sessions,PT 세션,focus_area,운동 부위
+column,sessions,PT 세션,memo,세션 메모
+column,sessions,PT 세션,next_memo,다음 수업 메모
+column,sessions,PT 세션,raw_voice_text,음성 전사 원문
+column,sessions,PT 세션,summary,세션 요약
+column,sessions,PT 세션,created_at,작성일시
+table,session_exercises,세션 운동 상세,,
+column,session_exercises,세션 운동 상세,id,세션 운동 ID
+column,session_exercises,세션 운동 상세,session_id,세션 ID
+column,session_exercises,세션 운동 상세,exercise_name,운동명
+column,session_exercises,세션 운동 상세,sets,세트 수
+column,session_exercises,세션 운동 상세,reps,반복 횟수
+column,session_exercises,세션 운동 상세,weight_kg,중량 kg
+column,session_exercises,세션 운동 상세,note,운동별 메모
+table,posture_images,자세 이미지,,
+column,posture_images,자세 이미지,id,자세 이미지 ID
+column,posture_images,자세 이미지,member_id,회원 ID
+column,posture_images,자세 이미지,session_id,세션 ID
+column,posture_images,자세 이미지,movement_name,운동 동작명
+column,posture_images,자세 이미지,image_path,이미지 파일 경로
+column,posture_images,자세 이미지,upload_status,업로드 상태
+column,posture_images,자세 이미지,uploaded_at,업로드일시
+table,posture_analysis,자세 분석 결과,,
+column,posture_analysis,자세 분석 결과,id,자세 분석 ID
+column,posture_analysis,자세 분석 결과,posture_image_id,자세 이미지 ID
+column,posture_analysis,자세 분석 결과,model_name,분석 모델명
+column,posture_analysis,자세 분석 결과,movement_name,분석 동작명
+column,posture_analysis,자세 분석 결과,analysis_status,분석 상태
+column,posture_analysis,자세 분석 결과,main_issue,주요 문제
+column,posture_analysis,자세 분석 결과,sub_issue,보조 문제
+column,posture_analysis,자세 분석 결과,result_note,분석 설명
+column,posture_analysis,자세 분석 결과,analyzed_at,분석일시
+table,posture_keypoints,자세 키포인트,,
+column,posture_keypoints,자세 키포인트,id,키포인트 ID
+column,posture_keypoints,자세 키포인트,analysis_id,자세 분석 ID
+column,posture_keypoints,자세 키포인트,keypoint_index,YOLO 키포인트 번호
+column,posture_keypoints,자세 키포인트,point_name,관절 포인트명
+column,posture_keypoints,자세 키포인트,x,X 좌표
+column,posture_keypoints,자세 키포인트,y,Y 좌표
+column,posture_keypoints,자세 키포인트,confidence,탐지 신뢰도
+table,posture_scores,자세 점수,,
+column,posture_scores,자세 점수,id,자세 점수 ID
+column,posture_scores,자세 점수,analysis_id,자세 분석 ID
+column,posture_scores,자세 점수,total_score,총점
+column,posture_scores,자세 점수,knee_alignment_score,무릎 정렬 점수
+column,posture_scores,자세 점수,upper_body_score,상체 기울기 점수
+column,posture_scores,자세 점수,pelvis_balance_score,골반 균형 점수
+column,posture_scores,자세 점수,lower_body_stability_score,하체 안정성 점수
+column,posture_scores,자세 점수,improvement_points,개선 필요 항목
+column,posture_scores,자세 점수,created_at,생성일시
+table,feedbacks,트레이너 피드백,,
+column,feedbacks,트레이너 피드백,id,피드백 ID
+column,feedbacks,트레이너 피드백,member_id,회원 ID
+column,feedbacks,트레이너 피드백,session_id,세션 ID
+column,feedbacks,트레이너 피드백,analysis_id,자세 분석 ID
+column,feedbacks,트레이너 피드백,trainer_comment,트레이너 코멘트
+column,feedbacks,트레이너 피드백,caution_note,주의사항
+column,feedbacks,트레이너 피드백,next_check_point,다음 확인사항
+column,feedbacks,트레이너 피드백,created_at,작성일시
+table,assignments,회원 과제,,
+column,assignments,회원 과제,id,과제 ID
+column,assignments,회원 과제,member_id,회원 ID
+column,assignments,회원 과제,session_id,세션 ID
+column,assignments,회원 과제,title,과제명
+column,assignments,회원 과제,description,과제 내용
+column,assignments,회원 과제,target_amount,목표량
+column,assignments,회원 과제,due_date,마감일
+column,assignments,회원 과제,status,과제 상태
+column,assignments,회원 과제,created_at,등록일시
+column,assignments,회원 과제,completed_at,완료일시
+table,assignment_completions,과제 수행 기록,,
+column,assignment_completions,과제 수행 기록,id,과제 수행 기록 ID
+column,assignment_completions,과제 수행 기록,assignment_id,과제 ID
+column,assignment_completions,과제 수행 기록,checked_at,확인일시
+column,assignment_completions,과제 수행 기록,status,수행 상태
+column,assignment_completions,과제 수행 기록,note,수행 메모
+table,reports,회원 리포트,,
+column,reports,회원 리포트,id,리포트 ID
+column,reports,회원 리포트,member_id,회원 ID
+column,reports,회원 리포트,session_id,세션 ID
+column,reports,회원 리포트,analysis_id,자세 분석 ID
+column,reports,회원 리포트,report_title,리포트 제목
+column,reports,회원 리포트,workout_summary,운동 요약
+column,reports,회원 리포트,posture_summary,자세 분석 요약
+column,reports,회원 리포트,good_points,잘한 점
+column,reports,회원 리포트,caution_points,주의할 점
+column,reports,회원 리포트,next_assignment,다음 과제
+column,reports,회원 리포트,created_at,생성일시

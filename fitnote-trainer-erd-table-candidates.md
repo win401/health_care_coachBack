@@ -235,6 +235,7 @@ CHECK 후보:
 | --- | --- | --- |
 | id | INTEGER PK | 키포인트 ID |
 | analysis_id | INTEGER FK | 자세 분석 ID |
+| keypoint_index | INTEGER NOT NULL | YOLO Pose 관절 번호 |
 | point_name | TEXT NOT NULL | 관절 포인트명 |
 | x | REAL | 이미지 내 x좌표 |
 | y | REAL | 이미지 내 y좌표 |
@@ -247,6 +248,7 @@ CHECK 후보:
 비고:
 
 - 4일 데모에서는 실제 좌표 대신 샘플 키포인트를 저장해도 된다.
+- YOLO Pose 결과 배열과 매칭하기 위해 `keypoint_index`를 함께 저장한다.
 
 ## 2.8 posture_scores
 

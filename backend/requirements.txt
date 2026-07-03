@@ -1,0 +1,15 @@
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+pydantic>=2.5.0
+python-jose[cryptography]>=3.3.0
+bcrypt>=4.0.0
+python-multipart>=0.0.9
+
+# 아래 3개는 선택 사항입니다. 설치하지 않아도 backend/app/services의
+# ai_service.py / pose_service.py가 자동으로 규칙 기반 fallback으로 동작합니다.
+# 실제 OpenAI 요약/리포트, YOLO 자세 분석을 쓰려면 설치하세요.
+openai>=1.0.0
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+pillow>=10.0.0
+numpy>=1.24.0

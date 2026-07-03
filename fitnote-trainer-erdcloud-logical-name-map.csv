@@ -5,6 +5,8 @@ column,trainers,트레이너,name,트레이너 이름
 column,trainers,트레이너,email,이메일
 column,trainers,트레이너,phone,연락처
 column,trainers,트레이너,center_name,소속 센터명
+column,trainers,트레이너,login_id,로그인 아이디
+column,trainers,트레이너,password_hash,비밀번호 해시
 column,trainers,트레이너,created_at,생성일시
 column,trainers,트레이너,updated_at,수정일시
 table,members,회원,,
@@ -134,3 +136,13 @@ column,reports,회원 리포트,good_points,잘한 점
 column,reports,회원 리포트,caution_points,주의할 점
 column,reports,회원 리포트,next_assignment,다음 과제
 column,reports,회원 리포트,created_at,생성일시
+table,trainer_daily_tasks,트레이너 일정,,
+column,trainer_daily_tasks,트레이너 일정,id,일정 ID
+column,trainer_daily_tasks,트레이너 일정,trainer_id,트레이너 ID
+column,trainer_daily_tasks,트레이너 일정,task_date,일정 날짜
+column,trainer_daily_tasks,트레이너 일정,time_label,시간 표시
+column,trainer_daily_tasks,트레이너 일정,title,할 일
+column,trainer_daily_tasks,트레이너 일정,notes,메모
+column,trainer_daily_tasks,트레이너 일정,is_done,완료 여부
+column,trainer_daily_tasks,트레이너 일정,sort_order,정렬 순서
+column,trainer_daily_tasks,트레이너 일정,created_at,생성일시

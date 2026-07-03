@@ -189,7 +189,7 @@ CREATE TABLE assignments (
   FOREIGN KEY (session_id) REFERENCES sessions(id)
 );
 
-CREATE TABLE tions (
+CREATE TABLE assignment_completions (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   assignment_id INTEGER NOT NULL,
   checked_at TEXT DEFAULT CURRENT_TIMESTAMP,

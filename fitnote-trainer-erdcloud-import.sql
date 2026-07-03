@@ -4,9 +4,12 @@ CREATE TABLE trainers (
   email VARCHAR(100),
   phone VARCHAR(30),
   center_name VARCHAR(100),
+  login_id VARCHAR(50) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  CONSTRAINT uq_trainers_login_id UNIQUE (login_id)
 );
 
 CREATE TABLE members (
@@ -218,4 +221,19 @@ CREATE TABLE reports (
     FOREIGN KEY (session_id) REFERENCES sessions (id),
   CONSTRAINT fk_reports_analysis
     FOREIGN KEY (analysis_id) REFERENCES posture_analysis (id)
+);
+
+CREATE TABLE trainer_daily_tasks (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  trainer_id BIGINT NOT NULL,
+  task_date DATE NOT NULL,
+  time_label VARCHAR(20),
+  title VARCHAR(150) NOT NULL,
+  notes TEXT,
+  is_done BOOLEAN NOT NULL DEFAULT FALSE,
+  sort_order INT NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_trainer_daily_tasks_trainer
+    FOREIGN KEY (trainer_id) REFERENCES trainers (id)
 );

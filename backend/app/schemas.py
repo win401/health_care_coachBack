@@ -131,6 +131,15 @@ class VoiceSummaryOut(BaseModel):
     assignment_candidate: str
 
 
+class VoiceRecordingOut(BaseModel):
+    transcribed: bool
+    raw_voice_text: Optional[str] = None
+    exercise_summary: Optional[str] = None
+    caution_note: Optional[str] = None
+    assignment_candidate: Optional[str] = None
+    message: Optional[str] = None
+
+
 # ---- Assignments ----
 
 class AssignmentCreate(BaseModel):

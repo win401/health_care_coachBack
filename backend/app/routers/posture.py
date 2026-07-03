@@ -11,6 +11,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
 
+from ..config import UPLOAD_ROOT
 from ..database import db_session
 from ..deps import require_trainer
 from ..schemas import PostureAnalysisOut, PostureImageOut
@@ -18,8 +19,7 @@ from ..services.mock_ai import run_mock_posture_analysis
 
 router = APIRouter(tags=["posture"])
 
-BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
-UPLOAD_DIR = BACKEND_DIR / "uploads" / "posture"
+UPLOAD_DIR = UPLOAD_ROOT / "posture"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
@@ -133,7 +133,10 @@ def analyze_posture_image(
     if image_row is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="자세 이미지를 찾을 수 없습니다")
 
-    stored_path = BACKEND_DIR / str(image_row["image_path"]).lstrip("/")
+    # image_path는 '/uploads/posture/xxx.jpg' 형태의 정적 서빙 URL이므로,
+    # main.py에서 '/uploads'를 UPLOAD_ROOT에 마운트한 것과 짝을 맞춰 복원한다.
+    relative_path = str(image_row["image_path"]).removeprefix("/uploads/")
+    stored_path = UPLOAD_ROOT / relative_path
     result = run_mock_posture_analysis(image_row["movement_name"] or "스쿼트", str(stored_path))
 
     cur = conn.execute(

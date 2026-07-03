@@ -1,9 +1,12 @@
 """수업 기록 API (Tab 3 앞부분: 회원/수업정보, 세션기록, 음성메모 요약)."""
 
 import sqlite3
+import uuid
+from pathlib import Path
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 
+from ..config import UPLOAD_ROOT
 from ..database import db_session
 from ..deps import require_trainer
 from ..schemas import (
@@ -11,12 +14,19 @@ from ..schemas import (
     SessionExerciseIn,
     SessionOut,
     SessionUpdate,
+    VoiceRecordingOut,
     VoiceSummaryOut,
     VoiceSummaryRequest,
 )
+from ..services.ai_service import transcribe_audio
 from ..services.mock_ai import summarize_voice_memo
 
 router = APIRouter(tags=["sessions"])
+
+VOICE_UPLOAD_DIR = UPLOAD_ROOT / "voice"
+VOICE_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+ALLOWED_AUDIO_EXTENSIONS = {".webm", ".mp3", ".mp4", ".m4a", ".wav", ".ogg"}
 
 
 def _assert_member_owned(conn: sqlite3.Connection, member_id: int, trainer_id: int) -> None:
@@ -162,3 +172,42 @@ def voice_summary(
 ):
     result = summarize_voice_memo(payload.raw_text)
     return VoiceSummaryOut(**result)
+
+
+@router.post("/sessions/voice-recording", response_model=VoiceRecordingOut)
+def upload_voice_recording(
+    file: UploadFile = File(...),
+    user: dict = Depends(require_trainer),
+):
+    """마이크로 녹음한 오디오 파일을 업로드받아 Whisper로 텍스트 변환 후 요약까지 한 번에 처리한다.
+
+    OPENAI_API_KEY가 없거나 STT 호출이 실패하면 transcribed=False로 응답하며,
+    이 경우 프론트에서는 기존 텍스트 직접 입력 흐름으로 안내한다.
+    """
+    ext = Path(file.filename or "").suffix.lower() or ".webm"
+    if ext not in ALLOWED_AUDIO_EXTENSIONS:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="지원하지 않는 오디오 형식입니다 (webm, mp3, mp4, m4a, wav, ogg만 가능)",
+        )
+
+    stored_name = f"{uuid.uuid4().hex}{ext}"
+    dest_path = VOICE_UPLOAD_DIR / stored_name
+    with dest_path.open("wb") as f:
+        f.write(file.file.read())
+
+    transcribed_text = transcribe_audio(str(dest_path))
+    if not transcribed_text:
+        return VoiceRecordingOut(
+            transcribed=False,
+            message="자동 텍스트 변환에 실패했습니다. OPENAI_API_KEY 설정을 확인하거나 텍스트로 직접 입력해주세요.",
+        )
+
+    summary = summarize_voice_memo(transcribed_text)
+    return VoiceRecordingOut(
+        transcribed=True,
+        raw_voice_text=transcribed_text,
+        exercise_summary=summary["exercise_summary"],
+        caution_note=summary["caution_note"],
+        assignment_candidate=summary["assignment_candidate"],
+    )

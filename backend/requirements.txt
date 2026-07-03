@@ -5,11 +5,11 @@ python-jose[cryptography]>=3.3.0
 bcrypt>=4.0.0
 python-multipart>=0.0.9
 
-# 아래 3개는 선택 사항입니다. 설치하지 않아도 backend/app/services의
-# ai_service.py / pose_service.py가 자동으로 규칙 기반 fallback으로 동작합니다.
-# 실제 OpenAI 요약/리포트, YOLO 자세 분석을 쓰려면 설치하세요.
+# OpenAI는 가벼운 패키지라 기본 포함. 세션 요약/리포트 생성/음성 녹음 STT(Whisper)에 쓰인다.
+# OPENAI_API_KEY가 없으면 자동으로 규칙 기반 fallback으로 동작(STT만 예외, 키 필수).
 openai>=1.0.0
-ultralytics>=8.0.0
-opencv-python>=4.8.0
-pillow>=10.0.0
-numpy>=1.24.0
+
+# 실제 YOLO 자세 분석(ultralytics)은 requirements-yolo.txt를 따로 설치해야 한다.
+# 무거운 패키지라 기본 배포에서는 제외했고, 설치 안 해도 자세 분석은 fallback으로
+# 안전하게 동작한다. 실제 YOLO를 테스트하려면:
+#   pip install -r requirements.txt -r requirements-yolo.txt

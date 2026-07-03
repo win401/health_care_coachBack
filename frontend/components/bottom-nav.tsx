@@ -22,8 +22,8 @@ export function BottomNav({ items }: { items: NavItem[] }) {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] font-medium",
-              active ? "text-slate-900" : "text-slate-400"
+              "flex flex-1 flex-col items-center gap-1 py-2.5 font-ui text-[11px] font-bold",
+              active ? "text-mint" : "text-slate-400"
             )}
           >
             <Icon className="h-5 w-5" />

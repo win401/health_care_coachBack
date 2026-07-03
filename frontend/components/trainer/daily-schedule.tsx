@@ -121,8 +121,10 @@ export function DailySchedule() {
         <button
           onClick={() => setView("table")}
           className={cn(
-            "flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium",
-            view === "table" ? "bg-slate-100 text-slate-900" : "text-slate-400 hover:text-slate-600"
+            "flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm font-medium transition-colors",
+            view === "table"
+              ? "bg-slate-900 text-white"
+              : "border border-slate-300 text-slate-500 hover:bg-slate-50"
           )}
         >
           <TableIcon className="h-4 w-4" />
@@ -131,8 +133,10 @@ export function DailySchedule() {
         <button
           onClick={() => setView("board")}
           className={cn(
-            "flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium",
-            view === "board" ? "bg-slate-100 text-slate-900" : "text-slate-400 hover:text-slate-600"
+            "flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm font-medium transition-colors",
+            view === "board"
+              ? "bg-slate-900 text-white"
+              : "border border-slate-300 text-slate-500 hover:bg-slate-50"
           )}
         >
           <BoardIcon className="h-4 w-4" />
@@ -175,7 +179,7 @@ export function DailySchedule() {
           <button
             onClick={handleAdd}
             disabled={adding || !newTitle.trim()}
-            className="flex items-center gap-1 rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-medium text-white disabled:bg-slate-300"
+            className="flex items-center gap-1 rounded-full bg-mint px-3 py-1.5 text-sm font-medium text-slate-900 transition-colors hover:bg-mint-deep disabled:bg-slate-300 disabled:text-slate-400"
           >
             <PlusIcon className="h-3.5 w-3.5" />
             추가

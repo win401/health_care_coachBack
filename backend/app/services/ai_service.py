@@ -88,6 +88,42 @@ def _openai_text(prompt: str) -> Optional[str]:
         return None
 
 
+def _whisper_model() -> str:
+    return os.getenv("OPENAI_STT_MODEL", "whisper-1").strip() or "whisper-1"
+
+
+def transcribe_audio(file_path: str) -> Optional[str]:
+    """녹음 파일(mp3/mp4/webm/wav 등)을 OpenAI Whisper API로 텍스트 변환한다.
+
+    다른 AI 기능과 달리 STT는 대체할 규칙 기반 fallback이 없다. API 키가
+    없거나 호출이 실패하면 None을 반환하고, 호출부에서 "직접 입력" 흐름으로
+    안내해야 한다.
+    """
+    api_key = _openai_api_key()
+    if not api_key:
+        return None
+    if not Path(file_path).exists():
+        return None
+
+    try:
+        from openai import OpenAI
+    except Exception:
+        return None
+
+    try:
+        client = OpenAI(api_key=api_key)
+        with open(file_path, "rb") as audio_file:
+            transcript = client.audio.transcriptions.create(
+                model=_whisper_model(),
+                file=audio_file,
+                language="ko",
+            )
+        text = getattr(transcript, "text", None)
+        return text.strip() if text else None
+    except Exception:
+        return None
+
+
 def summarize_session_note(raw_text: str) -> Optional[dict[str, str]]:
     text = (raw_text or "").strip()
     if not text:

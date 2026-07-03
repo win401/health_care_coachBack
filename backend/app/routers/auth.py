@@ -6,6 +6,7 @@
 둘 다 성공 시 동일한 형태의 JWT를 httpOnly 쿠키(access_token)에 담아 내려준다.
 """
 
+import os
 import sqlite3
 
 from fastapi import APIRouter, Depends, HTTPException, Response, status
@@ -19,6 +20,10 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 COOKIE_MAX_AGE_SECONDS = 60 * 60 * 12  # 12시간
 
+# 배포(HTTPS) 환경에서는 COOKIE_SECURE=1로 설정해서 쿠키에 Secure 플래그를 붙인다.
+# 로컬 http://localhost 개발 환경에서는 기본값 False로 그대로 동작한다.
+COOKIE_SECURE = os.getenv("COOKIE_SECURE", "0") == "1"
+
 
 def _set_auth_cookie(response: Response, token: str) -> None:
     response.set_cookie(
@@ -26,6 +31,7 @@ def _set_auth_cookie(response: Response, token: str) -> None:
         value=token,
         httponly=True,
         samesite="lax",
+        secure=COOKIE_SECURE,
         max_age=COOKIE_MAX_AGE_SECONDS,
         path="/",
     )

@@ -1,7 +1,7 @@
 export type NavItem = {
   href: string;
   label: string;
-  icon: "home" | "users" | "clipboard" | "file" | "target" | "calendar" | "chart";
+  icon: "home" | "users" | "clipboard" | "file" | "target" | "calendar" | "chart" | "settings";
 };
 
 export const trainerNavItems: NavItem[] = [
@@ -9,6 +9,7 @@ export const trainerNavItems: NavItem[] = [
   { href: "/trainer/members", label: "회원", icon: "users" },
   { href: "/trainer/sessions", label: "세션", icon: "clipboard" },
   { href: "/trainer/reports", label: "리포트", icon: "file" },
+  { href: "/trainer/settings", label: "설정", icon: "settings" },
 ];
 
 export const memberNavItems: NavItem[] = [

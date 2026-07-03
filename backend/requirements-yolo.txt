@@ -1,0 +1,9 @@
+# 실제 YOLO pose 자세 분석용 추가 의존성. 무거우니(torch 포함) 필요할 때만 설치한다.
+#
+#   pip install -r requirements.txt -r requirements-yolo.txt
+#
+# 로컬 개발이나, Railway 배포에서 실제 YOLO 분석까지 테스트하고 싶을 때 사용.
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+pillow>=10.0.0
+numpy>=1.24.0

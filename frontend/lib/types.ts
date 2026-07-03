@@ -133,3 +133,12 @@ export type TrainerTask = {
   sort_order: number;
   created_at: string;
 };
+
+export type VoiceRecordingSummary = {
+  transcribed: boolean;
+  raw_voice_text: string | null;
+  exercise_summary: string | null;
+  caution_note: string | null;
+  assignment_candidate: string | null;
+  message: string | null;
+};

@@ -61,9 +61,15 @@ npm run dev
 
 현재 backend와 Gradio는 OpenAI API / YOLO pose를 optional로 사용합니다.
 
-- `OPENAI_API_KEY`가 있으면 세션 메모 요약과 리포트 생성에 OpenAI API를 사용합니다.
+- `OPENAI_API_KEY`가 있으면 세션 메모 요약, 리포트 생성, 음성 녹음 STT(Whisper)에 OpenAI API를 사용합니다.
 - `ultralytics`와 YOLO pose 모델을 사용할 수 있으면 자세 이미지 분석 시 keypoint를 추출합니다.
-- API 키, 패키지, 모델이 없거나 추론이 실패하면 fallback 분석으로 앱이 계속 동작합니다.
+- API 키, 패키지, 모델이 없거나 추론이 실패하면 fallback 분석으로 앱이 계속 동작합니다(단, STT는 대체할 fallback이 없어 키가 없으면 텍스트 직접 입력으로 안내합니다).
+
+`backend/requirements.txt`는 기본적으로 가볍게 유지되도록 YOLO 관련 무거운 패키지(ultralytics, opencv-python 등, torch 포함)를 `backend/requirements-yolo.txt`로 분리했습니다. 실제 YOLO 분석까지 테스트하려면:
+
+```bash
+.venv/bin/pip install -r requirements.txt -r requirements-yolo.txt
+```
 
 관련 파일:
 

@@ -1,19 +1,80 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #eeeeeb;
+  --foreground: #101114;
+  --surface-card: #ffffff;
+  --surface-input: #f7f8f4;
+  --hairline: #e6e7e1;
+  --hairline-input: #e0e1da;
+  --label: #9a9ea6;
+  --muted-copy: #71757e;
+  --acc: #f26b45;
+  --acc-deep: #f55c3c;
+  --acc-soft: #ffceb8;
+  --acc-grad: linear-gradient(135deg, #ff6b4a, #ff9e4d);
+  --acc-grad-h: linear-gradient(135deg, #f55c3c, #f58f3d);
+  --panel-dark: linear-gradient(145deg, #1c1f26, #0b0c0f);
+  --good: #1f9e6b;
+  --warn: #e8912f;
+  --alert: #c7453b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo",
-    "Noto Sans KR", Roboto, sans-serif;
+  --font-sans: var(--font-archivo), Archivo, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", Roboto, sans-serif;
+  --font-display: var(--font-anton), Anton, Impact, sans-serif;
+  --font-heading: var(--font-gothic-a1), "Gothic A1", "Apple SD Gothic Neo", sans-serif;
+  --font-ui: var(--font-space-grotesk), "Space Grotesk", Inter, sans-serif;
+  --font-mono: var(--font-space-mono), "Space Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  --color-slate-50: #f7f8f4;
+  --color-slate-100: #eeeeeb;
+  --color-slate-200: #e6e7e1;
+  --color-slate-300: #e0e1da;
+  --color-slate-400: #9a9ea6;
+  --color-slate-500: #71757e;
+  --color-slate-600: #535861;
+  --color-slate-700: #30343b;
+  --color-slate-800: #1c1f26;
+  --color-slate-900: #101114;
+  --color-slate-950: #000000;
+
+  --color-emerald-100: #e7f8f1;
+  --color-emerald-600: #1f9e6b;
+  --color-emerald-700: #147d54;
+
+  --color-mint-50: #fff3ed;
+  --color-mint-100: #ffe3d4;
+  --color-mint-soft: var(--acc-soft);
+  --color-mint: var(--acc);
+  --color-mint-deep: var(--acc-deep);
+  --color-tag-blue: #3772cf;
+  --color-brand-warn: var(--warn);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+.accent-gradient {
+  background: var(--acc-grad);
+}
+
+.accent-gradient:hover {
+  background: var(--acc-grad-h);
+}
+
+.dark-panel {
+  background: var(--panel-dark);
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }

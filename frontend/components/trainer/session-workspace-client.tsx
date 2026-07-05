@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { api, ApiError } from "@/lib/api";
 import type { Member, PostureImage, Session, SessionExercise, VoiceRecordingSummary } from "@/lib/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input, Textarea } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CameraIcon, MicIcon, StopIcon } from "@/components/ui/icons";
@@ -296,25 +296,13 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
   }
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-4 p-4 md:p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-slate-900">{member.name} 회원 수업 기록</h1>
-          <p className="text-sm text-slate-500">{member.fitness_goal}</p>
-        </div>
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={() => router.push(`/trainer/reports/${member.id}`)}
-        >
-          리포트로 이동
-        </Button>
-      </div>
+    <div className="mx-auto grid max-w-[1500px] gap-6 px-5 py-6 md:px-10 xl:grid-cols-[1fr_420px]">
+      <div className="flex flex-col gap-6">
 
       {/* 1~2. 회원/수업 정보 + 세션 기록 */}
-      <Card>
+      <Card className="overflow-hidden">
         <CardHeader>
-          <CardTitle>① 수업 정보 & 세션 기록</CardTitle>
+          <SectionTitle number="01" title="회원 및 수업 정보" />
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <div className="grid gap-3 sm:grid-cols-2">
@@ -329,58 +317,85 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
             <Textarea rows={2} value={memo} onChange={(e) => setMemo(e.target.value)} />
           </Field>
 
-          <div className="flex flex-col gap-2">
-            <p className="text-sm font-medium text-slate-700">운동 기록</p>
-            {exercises.map((ex, i) => (
-              <div key={i} className="grid grid-cols-4 gap-2">
-                <Input
-                  className="col-span-2"
-                  placeholder="운동명"
-                  value={ex.exercise_name}
-                  onChange={(e) => updateExercise(i, { exercise_name: e.target.value })}
-                />
-                <Input
-                  placeholder="세트"
-                  type="number"
-                  value={ex.sets ?? ""}
-                  onChange={(e) => updateExercise(i, { sets: e.target.value ? Number(e.target.value) : null })}
-                />
-                <Input
-                  placeholder="반복"
-                  type="number"
-                  value={ex.reps ?? ""}
-                  onChange={(e) => updateExercise(i, { reps: e.target.value ? Number(e.target.value) : null })}
-                />
-              </div>
-            ))}
-            <Button type="button" variant="ghost" size="sm" onClick={addExerciseRow} className="self-start">
-              + 운동 추가
-            </Button>
-          </div>
-
           <Field label="다음 수업 메모">
             <Input value={nextMemo} onChange={(e) => setNextMemo(e.target.value)} />
           </Field>
+        </CardContent>
+      </Card>
 
+      {/* 3. 음성 메모 요약 */}
+      <Card className="overflow-hidden">
+        <CardHeader>
+          <SectionTitle number="02" title="세션 기록" />
+        </CardHeader>
+        <CardContent className="flex flex-col gap-5">
+          <div className="grid grid-cols-5 gap-3 px-2 font-mono text-sm text-slate-400">
+            <span>운동명</span>
+            <span>세트</span>
+            <span>반복</span>
+            <span>중량</span>
+            <span>특이사항</span>
+          </div>
+          {exercises.map((ex, i) => (
+            <div key={i} className="grid grid-cols-5 gap-2 rounded-xl bg-[#f7f8f4] p-2">
+              <Input
+                placeholder="운동명"
+                value={ex.exercise_name}
+                onChange={(e) => updateExercise(i, { exercise_name: e.target.value })}
+                className="border-0 bg-transparent"
+              />
+              <Input
+                placeholder="세트"
+                type="number"
+                value={ex.sets ?? ""}
+                onChange={(e) => updateExercise(i, { sets: e.target.value ? Number(e.target.value) : null })}
+                className="border-0 bg-transparent"
+              />
+              <Input
+                placeholder="반복"
+                type="number"
+                value={ex.reps ?? ""}
+                onChange={(e) => updateExercise(i, { reps: e.target.value ? Number(e.target.value) : null })}
+                className="border-0 bg-transparent"
+              />
+              <Input
+                placeholder="중량"
+                type="number"
+                value={ex.weight_kg ?? ""}
+                onChange={(e) => updateExercise(i, { weight_kg: e.target.value ? Number(e.target.value) : null })}
+                className="border-0 bg-transparent"
+              />
+              <Input
+                placeholder="특이사항"
+                value={ex.note ?? ""}
+                onChange={(e) => updateExercise(i, { note: e.target.value || null })}
+                className="border-0 bg-transparent"
+              />
+            </div>
+          ))}
+          <Button type="button" variant="secondary" size="lg" onClick={addExerciseRow} className="border-dashed">
+            + 운동 추가
+          </Button>
           {sessionError && <p className="text-sm text-red-600">{sessionError}</p>}
-          <Button onClick={handleSaveSession} disabled={savingSession}>
+          <Button variant="accent" onClick={handleSaveSession} disabled={savingSession} className="xl:hidden">
             {session ? "세션 정보 다시 저장" : savingSession ? "저장 중..." : "세션 저장"}
           </Button>
           {session && <p className="text-xs text-emerald-600">세션 #{session.id} 저장됨</p>}
         </CardContent>
       </Card>
 
-      {/* 3. 음성 메모 요약 */}
-      <Card>
+      <Card className="dark-panel overflow-hidden border-transparent text-white">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>② 음성 메모 요약</CardTitle>
+          <div>
+            <SectionTitle number="03" title="음성 메모 요약" dark />
+          </div>
           <div className="flex gap-1 rounded-full border border-slate-300 p-0.5">
             <button
               type="button"
               onClick={() => setVoiceMode("record")}
               className={cn(
                 "rounded-full px-3 py-1 text-xs font-medium transition-colors",
-                voiceMode === "record" ? "bg-slate-900 text-white" : "text-slate-500"
+                voiceMode === "record" ? "accent-gradient text-white" : "text-slate-500"
               )}
             >
               녹음
@@ -390,7 +405,7 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
               onClick={() => setVoiceMode("manual")}
               className={cn(
                 "rounded-full px-3 py-1 text-xs font-medium transition-colors",
-                voiceMode === "manual" ? "bg-slate-900 text-white" : "text-slate-500"
+                voiceMode === "manual" ? "accent-gradient text-white" : "text-slate-500"
               )}
             >
               직접 입력
@@ -399,7 +414,7 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           {voiceMode === "record" ? (
-            <div className="flex flex-col items-center gap-3 rounded-lg bg-slate-50 py-6">
+            <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/7 py-6">
               {!recordedUrl ? (
                 <>
                   <button
@@ -407,12 +422,12 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
                     onClick={isRecording ? stopRecording : startRecording}
                     className={cn(
                       "flex h-16 w-16 items-center justify-center rounded-full text-white transition-colors",
-                      isRecording ? "bg-red-500 animate-pulse" : "bg-mint text-slate-900 hover:bg-mint-deep"
+                      isRecording ? "animate-pulse bg-red-500" : "accent-gradient"
                     )}
                   >
                     {isRecording ? <StopIcon className="h-6 w-6" /> : <MicIcon className="h-6 w-6" />}
                   </button>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-white/55">
                     {isRecording ? `녹음 중... ${formatSeconds(recordingSeconds)}` : "버튼을 눌러 음성 메모 녹음"}
                   </p>
                 </>
@@ -438,16 +453,16 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
                 onChange={(e) => setVoiceText(e.target.value)}
                 placeholder="수업 중 음성 메모를 텍스트로 입력하세요 (예: 오늘 하체 운동 진행, 무릎이 안쪽으로 모이는 경향...)"
               />
-              <Button variant="secondary" onClick={handleSummarizeVoice} disabled={summarizing || !voiceText.trim()}>
+              <Button variant="accent" onClick={handleSummarizeVoice} disabled={summarizing || !voiceText.trim()}>
                 {summarizing ? "요약 중..." : "음성 메모 요약"}
               </Button>
             </>
           )}
 
-          {voiceError && <p className="text-sm text-red-600">{voiceError}</p>}
+          {voiceError && <p className="text-sm text-red-300">{voiceError}</p>}
 
           {voiceSummary && (
-            <div className="rounded-lg bg-slate-50 p-3 text-sm text-slate-700">
+            <div className="rounded-2xl border border-white/10 bg-white/7 p-4 text-sm leading-6 text-white/72">
               <p>운동 내용: {voiceSummary.exercise_summary}</p>
               <p>주의사항: {voiceSummary.caution_note}</p>
               <p>과제 후보: {voiceSummary.assignment_candidate}</p>
@@ -457,9 +472,9 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
       </Card>
 
       {/* 4. 자세 분석 */}
-      <Card>
-        <CardHeader>
-          <CardTitle>③ 자세 분석 (AI/YOLO)</CardTitle>
+      <Card className="overflow-hidden">
+        <CardHeader className="border-b border-slate-200 bg-[#f7f8f4]">
+          <SectionTitle number="04" title="자세 분석 (AI/YOLO)" />
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <Field label="운동 동작">
@@ -488,7 +503,7 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
               <img
                 src={selectedPreviewUrl}
                 alt="선택한 사진 미리보기"
-                className="max-h-64 w-full rounded-lg border border-dashed border-slate-300 object-contain"
+              className="max-h-72 w-full rounded-2xl border border-dashed border-slate-300 bg-[#f7f8f4] object-contain"
               />
             </div>
           )}
@@ -498,9 +513,9 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
               <img
                 src={postureImage.image_path}
                 alt="업로드된 자세 사진"
-                className="max-h-64 w-full rounded-lg border border-slate-200 object-contain"
+                className="max-h-72 w-full rounded-2xl border border-slate-200 bg-[#f7f8f4] object-contain"
               />
-              <Button size="sm" onClick={handleAnalyze} disabled={analyzing}>
+              <Button variant="accent" size="sm" onClick={handleAnalyze} disabled={analyzing}>
                 {analyzing ? "분석 중..." : "AI로 분석하기"}
               </Button>
             </div>
@@ -509,7 +524,7 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
           {postureError && <p className="text-sm text-red-600">{postureError}</p>}
 
           {postureImage?.analysis && (
-            <div className="rounded-lg bg-slate-50 p-3 text-sm text-slate-700">
+            <div className="rounded-2xl border border-slate-200 bg-[#f7f8f4] p-4 text-sm leading-6 text-slate-700">
               <p className="font-medium">자세 점수: {postureImage.analysis.total_score}점</p>
               <p>주요 문제: {postureImage.analysis.main_issue}</p>
               <p>보조 문제: {postureImage.analysis.sub_issue}</p>
@@ -523,9 +538,12 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
       </Card>
 
       {/* 5. 트레이너 피드백 */}
-      <Card>
+      </div>
+
+      <aside className="flex flex-col gap-6 xl:sticky xl:top-36 xl:self-start">
+      <Card className="overflow-hidden">
         <CardHeader>
-          <CardTitle>④ 트레이너 피드백</CardTitle>
+          <SectionTitle number="05" title="피드백" />
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <Field label="코멘트">
@@ -537,7 +555,7 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
           <Field label="다음 수업 확인사항">
             <Input value={nextCheckPoint} onChange={(e) => setNextCheckPoint(e.target.value)} />
           </Field>
-          <Button onClick={handleSaveFeedback} disabled={savingFeedback || !trainerComment.trim()}>
+          <Button variant="accent" onClick={handleSaveFeedback} disabled={savingFeedback || !trainerComment.trim()}>
             {savingFeedback ? "저장 중..." : "피드백 저장"}
           </Button>
           {feedbackSaved && <p className="text-xs text-emerald-600">피드백이 저장되었습니다</p>}
@@ -545,9 +563,9 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
       </Card>
 
       {/* 6. 과제 등록 */}
-      <Card>
+      <Card className="overflow-hidden">
         <CardHeader>
-          <CardTitle>⑤ 과제 등록</CardTitle>
+          <SectionTitle number="06" title="과제 등록" />
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <Field label="과제명">
@@ -561,12 +579,35 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
               <Input type="date" value={assignmentDue} onChange={(e) => setAssignmentDue(e.target.value)} />
             </Field>
           </div>
-          <Button onClick={handleSaveAssignment} disabled={savingAssignment || !assignmentTitle.trim()}>
+          <Button variant="accent" onClick={handleSaveAssignment} disabled={savingAssignment || !assignmentTitle.trim()}>
             {savingAssignment ? "저장 중..." : "과제 저장"}
           </Button>
           {assignmentSaved && <p className="text-xs text-emerald-600">과제가 등록되었습니다</p>}
         </CardContent>
       </Card>
+      <Button variant="accent" size="lg" onClick={handleSaveSession} disabled={savingSession} className="h-14 rounded-xl text-base">
+        전체 저장
+      </Button>
+      <Button
+        variant="secondary"
+        size="lg"
+        onClick={() => router.push(`/trainer/reports/${member.id}`)}
+        className="h-12 rounded-xl"
+      >
+        리포트로 이동
+      </Button>
+      </aside>
+    </div>
+  );
+}
+
+function SectionTitle({ number, title, dark = false }: { number: string; title: string; dark?: boolean }) {
+  return (
+    <div className="flex items-center gap-5">
+      <span className="flex h-8 min-w-10 items-center justify-center rounded-md accent-gradient px-2.5 font-mono text-xs font-black text-black">
+        {number}
+      </span>
+      <h2 className={`font-heading text-xl font-black ${dark ? "text-white" : "text-slate-950"}`}>{title}</h2>
     </div>
   );
 }
@@ -574,7 +615,7 @@ export function SessionWorkspaceClient({ member }: { member: Member }) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-slate-700">{label}</label>
+      <label className="mono-label text-slate-400">{label}</label>
       {children}
     </div>
   );

@@ -5,10 +5,10 @@ export type NavItem = {
 };
 
 export const trainerNavItems: NavItem[] = [
-  { href: "/trainer/dashboard", label: "홈", icon: "home" },
-  { href: "/trainer/members", label: "회원", icon: "users" },
+  { href: "/trainer/dashboard", label: "대시보드", icon: "home" },
   { href: "/trainer/sessions", label: "세션", icon: "clipboard" },
   { href: "/trainer/reports", label: "리포트", icon: "file" },
+  { href: "/trainer/members/new", label: "회원등록", icon: "users" },
   { href: "/trainer/settings", label: "설정", icon: "settings" },
 ];
 

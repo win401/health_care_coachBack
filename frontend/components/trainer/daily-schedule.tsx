@@ -88,42 +88,41 @@ export function DailySchedule() {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-      {/* 탭 */}
-      <div className="flex items-center gap-1 border-b border-slate-200 px-4 pt-3">
-        {TABS.map((tab) => {
-          const Icon = tab.icon;
-          const active = period === tab.key;
-          return (
-            <button
-              key={tab.key}
-              onClick={() => setPeriod(tab.key)}
-              className={cn(
-                "flex items-center gap-1.5 border-b-2 px-3 pb-2.5 text-sm font-medium transition-colors",
-                active
-                  ? "border-slate-900 text-slate-900"
-                  : "border-transparent text-slate-400 hover:text-slate-600"
-              )}
-            >
-              <Icon className="h-3.5 w-3.5" />
-              {tab.label}
-            </button>
-          );
-        })}
+      <div className="flex flex-col justify-between gap-4 border-b border-slate-200 bg-[#f7f8f4] px-5 py-4 lg:flex-row lg:items-end">
+        <div>
+          <p className="mono-label text-slate-400">TODAY CONTROL</p>
+          <h3 className="mt-1 font-ui text-xl font-bold text-slate-950">Daily Schedule</h3>
+        </div>
+        <div className="flex flex-wrap items-center gap-1 rounded-full border border-slate-200 bg-white p-1">
+          {TABS.map((tab) => {
+            const Icon = tab.icon;
+            const active = period === tab.key;
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setPeriod(tab.key)}
+                className={cn(
+                  "flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition-colors",
+                  active
+                    ? "accent-gradient text-white"
+                    : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                )}
+              >
+                <Icon className="h-3.5 w-3.5" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* 헤더 */}
-      <div className="bg-slate-50 px-5 py-4">
-        <h3 className="text-lg font-bold text-slate-900">Daily Schedule</h3>
-      </div>
-
-      {/* 뷰 토글 */}
-      <div className="flex items-center gap-1 px-4 pt-3">
+      <div className="flex items-center gap-1 px-5 pt-4">
         <button
           onClick={() => setView("table")}
           className={cn(
-            "flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm font-medium transition-colors",
+            "flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition-colors",
             view === "table"
-              ? "bg-slate-900 text-white"
+              ? "bg-slate-950 text-white"
               : "border border-slate-300 text-slate-500 hover:bg-slate-50"
           )}
         >
@@ -133,9 +132,9 @@ export function DailySchedule() {
         <button
           onClick={() => setView("board")}
           className={cn(
-            "flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm font-medium transition-colors",
+            "flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition-colors",
             view === "board"
-              ? "bg-slate-900 text-white"
+              ? "bg-slate-950 text-white"
               : "border border-slate-300 text-slate-500 hover:bg-slate-50"
           )}
         >
@@ -156,30 +155,30 @@ export function DailySchedule() {
         )}
 
         {/* 새 일정 추가 (오늘 일정으로 추가) */}
-        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-200 pt-4">
           <input
             value={newTime}
             onChange={(e) => setNewTime(e.target.value)}
             placeholder="시간"
-            className="w-20 rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
+            className="h-10 w-24 rounded-full border border-slate-200 bg-[#f7f8f4] px-3 text-sm outline-none focus:border-[var(--acc)]"
           />
           <input
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
             placeholder="할 일 추가"
-            className="min-w-[140px] flex-1 rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
+            className="h-10 min-w-[140px] flex-1 rounded-full border border-slate-200 bg-[#f7f8f4] px-3 text-sm outline-none focus:border-[var(--acc)]"
             onKeyDown={(e) => e.key === "Enter" && handleAdd()}
           />
           <input
             value={newNotes}
             onChange={(e) => setNewNotes(e.target.value)}
             placeholder="메모"
-            className="min-w-[120px] flex-1 rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
+            className="h-10 min-w-[120px] flex-1 rounded-full border border-slate-200 bg-[#f7f8f4] px-3 text-sm outline-none focus:border-[var(--acc)]"
           />
           <button
             onClick={handleAdd}
             disabled={adding || !newTitle.trim()}
-            className="flex items-center gap-1 rounded-full bg-mint px-3 py-1.5 text-sm font-medium text-slate-900 transition-colors hover:bg-mint-deep disabled:bg-slate-300 disabled:text-slate-400"
+            className="accent-gradient flex h-10 items-center gap-1 rounded-full px-4 text-sm font-semibold text-white transition-colors disabled:bg-slate-300 disabled:text-slate-400"
           >
             <PlusIcon className="h-3.5 w-3.5" />
             추가

@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { DesktopSidebar } from "@/components/desktop-sidebar";
 import { BottomNav } from "@/components/bottom-nav";
 import { MobileHeader } from "@/components/mobile-header";
+import { TrainerTopBar } from "@/components/trainer/trainer-top-bar";
 import { trainerNavItems } from "@/lib/nav";
 
 export default async function TrainerLayout({ children }: { children: React.ReactNode }) {
@@ -16,11 +17,14 @@ export default async function TrainerLayout({ children }: { children: React.Reac
   }
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="min-h-screen w-full">
       <DesktopSidebar items={trainerNavItems} title="FitNote Trainer" userName={`${user.name} 트레이너`} />
-      <div className="flex min-h-screen flex-1 flex-col">
+      <div className="min-h-screen md:pl-[112px]">
         <MobileHeader title="FitNote Trainer" userName={`${user.name} 트레이너`} />
-        <main className="flex-1 pb-20 md:pb-0">{children}</main>
+        <div className="hidden md:block">
+          <TrainerTopBar userName={`${user.name} 트레이너`} />
+        </div>
+        <main className="pb-28 md:pb-36">{children}</main>
         <BottomNav items={trainerNavItems} />
       </div>
     </div>

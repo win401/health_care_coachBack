@@ -16,7 +16,7 @@ type AccentPreset = {
 const PRESETS: AccentPreset[] = [
   {
     key: "coral",
-    label: "Coral",
+    label: "코랄",
     solid: "#F26B45",
     deep: "#F55C3C",
     soft: "#FFCEB8",
@@ -25,7 +25,7 @@ const PRESETS: AccentPreset[] = [
   },
   {
     key: "indigo",
-    label: "Indigo",
+    label: "인디고",
     solid: "#6366F1",
     deep: "#4F46E5",
     soft: "#C7D2FE",
@@ -34,7 +34,7 @@ const PRESETS: AccentPreset[] = [
   },
   {
     key: "emerald",
-    label: "Emerald",
+    label: "에메랄드",
     solid: "#0EA478",
     deep: "#047857",
     soft: "#A7F3D0",
@@ -43,7 +43,7 @@ const PRESETS: AccentPreset[] = [
   },
   {
     key: "ocean",
-    label: "Ocean",
+    label: "오션",
     solid: "#2E7BEE",
     deep: "#2563EB",
     soft: "#BFDBFE",
@@ -52,7 +52,7 @@ const PRESETS: AccentPreset[] = [
   },
   {
     key: "rose",
-    label: "Rose",
+    label: "로즈",
     solid: "#E8477E",
     deep: "#DB2777",
     soft: "#FBCFE8",
@@ -90,7 +90,7 @@ export function AccentPicker() {
   }
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+    <div className="grid gap-4 md:grid-cols-2">
       {PRESETS.map((preset) => {
         const active = selectedKey === preset.key;
         return (
@@ -99,17 +99,27 @@ export function AccentPicker() {
             type="button"
             onClick={() => selectPreset(preset)}
             className={cn(
-              "flex items-center gap-3 rounded-xl border bg-white p-3 text-left transition-colors",
-              active ? "border-mint ring-2 ring-mint-soft/60" : "border-slate-200 hover:border-slate-300"
+              "flex items-center justify-between gap-4 rounded-2xl border bg-[#f7f8f4] p-5 text-left transition-colors",
+              active ? "border-slate-950 ring-2 ring-slate-950" : "border-transparent hover:border-slate-300"
             )}
           >
-            <span
-              className="h-9 w-9 shrink-0 rounded-full border border-white shadow-sm"
-              style={{ background: preset.grad }}
-            />
-            <span>
-              <span className="block font-ui text-sm font-bold text-slate-900">{preset.label}</span>
-              <span className="mono-label text-[10px] text-slate-400">{preset.key}</span>
+            <span className="flex items-center gap-6">
+              <span
+                className="h-14 w-14 shrink-0 rounded-xl border border-white shadow-lg"
+                style={{ background: preset.grad }}
+              />
+              <span>
+                <span className="block font-heading text-xl font-black text-slate-950">{preset.label}</span>
+                <span className="mt-1 block text-sm text-slate-500">
+                  {preset.key === "coral" ? "따뜻·활동적" : preset.key === "indigo" ? "차분·프리미엄" : preset.key === "emerald" ? "건강·신선" : preset.key === "ocean" ? "시원·선명" : "부드러운 포인트"}
+                </span>
+              </span>
+            </span>
+            <span className={cn(
+              "grid h-7 w-7 place-items-center rounded-full border-[3px] text-xs",
+              active ? "border-slate-950 bg-slate-950 text-white" : "border-slate-300 text-transparent"
+            )}>
+              ✓
             </span>
           </button>
         );

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV_ICONS } from "@/components/ui/icons";
 import type { NavItem } from "@/lib/nav";
 import { LogoutButton } from "./logout-button";
 import { cn } from "@/lib/utils";
@@ -23,35 +22,38 @@ export function DesktopSidebar({
   const pathname = usePathname();
 
   return (
-    <aside className="dark-panel hidden md:flex md:w-64 md:flex-col md:text-white">
-      <div className="flex h-20 items-center px-6">
-        <span className="font-display text-2xl uppercase text-white">{title}</span>
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-[112px] flex-col bg-[#0b0c0f] text-white md:flex">
+      <div className="flex h-24 items-center justify-center">
+        <div className="flex h-10 w-10 items-center justify-center rounded-none accent-gradient font-ui text-lg font-black text-black">
+          F
+        </div>
       </div>
-      <nav className="flex-1 space-y-1 px-4">
+      <span className="sr-only">{title}</span>
+      <nav className="flex flex-1 flex-col items-center gap-4 pt-3">
         {items.map((item, index) => {
-          const Icon = NAV_ICONS[item.icon];
           const active = pathname === item.href || pathname.startsWith(item.href + "/");
           return (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "group flex items-center gap-3 rounded-xl border-l-2 px-3 py-3 font-ui text-sm font-semibold transition-colors",
+                "flex h-[52px] w-[52px] items-center justify-center rounded-2xl font-mono text-xs font-bold transition-colors",
                 active
-                  ? "border-mint bg-white/10 text-white"
-                  : "border-transparent text-white/58 hover:bg-white/8 hover:text-white"
+                  ? "accent-gradient text-black"
+                  : "text-white/38 hover:bg-white/8 hover:text-white"
               )}
+              title={item.label}
             >
-              <span className="mono-label w-6 text-[10px] text-white/35">{String(index + 1).padStart(2, "0")}</span>
-              <Icon className="h-4.5 w-4.5 text-current" />
-              <span>{item.label}</span>
+              {String(index + 1).padStart(2, "0")}
             </Link>
           );
         })}
       </nav>
-      <div className="border-t border-white/10 p-4">
-        <div className="mb-2 px-3 py-1 text-xs text-white/45">{userName}</div>
-        <LogoutButton className="w-full" />
+      <div className="flex flex-col items-center gap-6 px-7 pb-6">
+        <div className="h-px w-full bg-white/16" />
+        <span className="text-xs text-white/45">↗</span>
+        <LogoutButton className="h-8 w-8 rounded-full bg-transparent p-0 text-[0px] text-white/45 hover:bg-white/8" />
+        <span className="sr-only">{userName}</span>
       </div>
     </aside>
   );

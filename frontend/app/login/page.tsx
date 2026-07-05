@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { api, ApiError } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 
 type Role = "trainer" | "member";
 
@@ -52,63 +51,84 @@ function LoginForm() {
   }
 
   return (
-    <div className="grid min-h-screen w-full bg-background lg:grid-cols-[1.1fr_0.9fr]">
-      <section className="dark-panel relative hidden min-h-screen overflow-hidden p-10 text-white lg:flex lg:flex-col lg:justify-between">
+    <div className="grid min-h-screen w-full bg-background lg:grid-cols-[1.05fr_0.95fr]">
+      <section className="relative hidden min-h-screen overflow-hidden bg-black p-16 text-white lg:flex lg:flex-col lg:justify-between">
         <div>
-          <p className="mono-label text-xs text-white/45">PT Coaching OS</p>
-          <h1 className="mt-5 max-w-xl font-heading text-5xl font-extrabold leading-tight">
-            회원 기록과 자세 분석을 한 화면에서.
-          </h1>
-        </div>
-        <div className="grid gap-3">
-          <div className="h-44 rounded-2xl border border-white/10 bg-white/8 p-5">
-            <p className="mono-label text-xs text-white/45">Today</p>
-            <p className="mt-4 font-display text-6xl text-white">12</p>
-            <p className="mt-1 text-sm text-white/60">scheduled sessions</p>
+          <div className="flex items-center gap-5">
+            <div className="flex h-12 w-12 items-center justify-center accent-gradient font-ui text-xl font-black text-black">
+              F
+            </div>
+            <p className="font-heading text-3xl font-black uppercase">FITNOTE</p>
           </div>
-          <div className="accent-gradient h-2 w-44 rounded-full" />
+        </div>
+        <div>
+          <p className="mb-8 flex items-center gap-4 font-mono text-xl font-bold uppercase tracking-[0.28em] text-[var(--acc)]">
+            <span className="h-1 w-12 accent-gradient" />
+            Trainer OS
+          </p>
+          <h1 className="max-w-3xl font-heading text-[72px] font-black leading-[1.05] tracking-tight">
+            기억이 아닌
+            <br />
+            <span className="text-[var(--acc)]">기록</span>으로
+          </h1>
+          <p className="mt-8 max-w-2xl text-xl leading-8 text-white/62">
+            수업 기록 · 자세 분석 · 피드백 · 과제를 한 흐름으로. 트레이너의 모든 순간을 데이터로.
+          </p>
+        </div>
+        <div className="flex gap-12">
+          {[
+            ["124", "누적 세션"],
+            ["18", "담당 회원"],
+            ["92%", "완료율"],
+          ].map(([value, label]) => (
+            <div key={label}>
+              <p className="font-display text-4xl leading-none">{value}</p>
+              <p className="mt-3 text-sm text-white/45">{label}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <div className="flex min-h-screen items-center justify-center px-4 py-10">
-        <div className="w-full max-w-sm">
-          <div className="mb-8">
-            <p className="mono-label text-xs text-slate-500">FitNote Trainer</p>
-            <h2 className="mt-2 font-heading text-3xl font-extrabold text-slate-900">로그인</h2>
-            <p className="mt-1 text-sm text-slate-500">회원 관리 · 자세 분석 · 리포트</p>
+      <div className="flex min-h-screen items-center justify-center px-6 py-8">
+        <div className="w-full max-w-[520px]">
+          <div className="mb-10">
+            <p className="mono-label text-slate-400">Welcome Back</p>
+            <h2 className="mt-2 font-heading text-4xl font-black leading-none text-slate-950">로그인</h2>
+            <p className="mt-4 text-base text-slate-500">데모 계정으로 바로 둘러보세요.</p>
           </div>
-        <Card>
-          <div className="flex border-b border-slate-200">
+
+          <div className="mb-7 grid rounded-2xl bg-slate-200/70 p-1.5">
+            <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
               onClick={() => setRole("trainer")}
-              className={`flex-1 py-3 text-sm font-medium transition-colors ${
+              className={`h-12 rounded-xl font-ui text-base font-black transition-colors ${
                 role === "trainer"
-                  ? "border-b-2 border-mint text-slate-900"
+                  ? "bg-white text-slate-950 shadow-sm"
                   : "text-slate-400 hover:text-slate-600"
               }`}
             >
-              트레이너 로그인
+              트레이너
             </button>
             <button
               type="button"
               onClick={() => setRole("member")}
-              className={`flex-1 py-3 text-sm font-medium transition-colors ${
+              className={`h-12 rounded-xl font-ui text-base font-black transition-colors ${
                 role === "member"
-                  ? "border-b-2 border-mint text-slate-900"
+                  ? "bg-white text-slate-950 shadow-sm"
                   : "text-slate-400 hover:text-slate-600"
               }`}
             >
-              회원 로그인
+              회원
             </button>
+            </div>
           </div>
 
-          <CardContent>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 pt-2">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               {role === "trainer" ? (
                 <>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium text-slate-700">아이디</label>
+                  <div className="flex flex-col gap-3">
+                    <label className="text-sm font-semibold text-slate-400">아이디</label>
                     <Input
                       value={loginId}
                       onChange={(e) => setLoginId(e.target.value)}
@@ -117,8 +137,8 @@ function LoginForm() {
                       required
                     />
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium text-slate-700">비밀번호</label>
+                  <div className="flex flex-col gap-3">
+                    <label className="text-sm font-semibold text-slate-400">비밀번호</label>
                     <Input
                       type="password"
                       value={password}
@@ -131,8 +151,8 @@ function LoginForm() {
                 </>
               ) : (
                 <>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium text-slate-700">이름</label>
+                  <div className="flex flex-col gap-3">
+                    <label className="text-sm font-semibold text-slate-400">이름</label>
                     <Input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -140,8 +160,8 @@ function LoginForm() {
                       required
                     />
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium text-slate-700">전화번호 뒷자리 4자리</label>
+                  <div className="flex flex-col gap-3">
+                    <label className="text-sm font-semibold text-slate-400">전화번호 뒷자리 4자리</label>
                     <Input
                       value={phoneLast4}
                       onChange={(e) => setPhoneLast4(e.target.value.replace(/[^0-9]/g, "").slice(0, 4))}
@@ -156,12 +176,11 @@ function LoginForm() {
 
               {error && <p className="text-sm text-red-600">{error}</p>}
 
-              <Button type="submit" variant="accent" size="lg" disabled={loading} className="mt-2 w-full">
-                {loading ? "로그인 중..." : "로그인"}
+              <Button type="submit" variant="accent" size="lg" disabled={loading} className="mt-3 h-14 w-full rounded-xl text-base">
+                {loading ? "로그인 중..." : "로그인 →"}
               </Button>
+              <p className="text-center font-mono text-base text-slate-300">demo · trainer1 / pass1234</p>
             </form>
-          </CardContent>
-        </Card>
         </div>
       </div>
     </div>
